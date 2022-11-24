@@ -41,8 +41,8 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
-    'rest_framework_simplejwt',
     "djoser",
+    'rest_framework_simplejwt',
     "corsheaders",
     "rest_framework",
     "users",
@@ -106,14 +106,13 @@ DJOSER = {
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'skymarket',
-        'USER': 'skymarket',
+        'NAME': 'postgres',
+        'USER': 'postgres',
         'PASSWORD': 'skymarket',
         'HOST': 'localhost',
         'PORT': '5432',
     }
 }
-
 # Password validation
 # https://docs.djangoproject.com/en/4.0/ref/settings/#auth-password-validators
 
