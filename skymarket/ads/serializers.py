@@ -1,18 +1,40 @@
 from rest_framework import serializers
+from rest_framework.relations import SlugRelatedField
 
+from users.models import User
+from users.serializers import CurrentUserSerializer
+from ads.models import Comment, Ad
 
-# TODO Сериалайзеры. Предлагаем Вам такую структуру, однако вы вправе использовать свою
 
 class CommentSerializer(serializers.ModelSerializer):
-    # TODO сериалайзер для модели
-    pass
+    author = CurrentUserSerializer()
+    class Meta:
+        model = Comment
+        fields = '__all__'
+
+
+class AdCreateSerializer(serializers.ModelSerializer):
+    author = CurrentUserSerializer()
+
+    class Meta:
+        model = Ad
+        fields = ['pk', 'title', 'price', 'image', 'description', 'author']
+
+# class AdSerializer(serializers.ModelSerializer):
+#     first_name = SlugRelatedField(slug_field="first_name", queryset=User.objects.all())
+#     # last_name = SlugRelatedField(slug_field="last_name", queryset=User.objects.all())
+#     # phone = SlugRelatedField(slug_field="phone", queryset=User.objects.all())
+#     # author_id = SlugRelatedField(slug_field="phone", queryset=User.objects.all())
+#
+#     class Meta:
+#         model = Ad
+#         fields = ['title', 'price', 'image', 'description', 'first_name']
 
 
 class AdSerializer(serializers.ModelSerializer):
-    # TODO сериалайзер для модели
-    pass
+    author = CurrentUserSerializer()
 
+    class Meta:
+        model = Ad
+        fields = ['pk', 'title', 'price', 'image', 'description', 'author']
 
-class AdDetailSerializer(serializers.ModelSerializer):
-    # TODO сериалайзер для модели
-    pass

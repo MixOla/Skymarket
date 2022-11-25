@@ -7,7 +7,7 @@ from users.models import User
 
 
 class Ad(models.Model):
-    title = models.CharField(max_length=150, null=True)
+    title = models.CharField(max_length=200, null=True)
     price = models.PositiveIntegerField(null=True)
     image = models.ImageField(null=True)
     description = models.CharField(max_length=100, null=True, blank=True)
@@ -24,7 +24,7 @@ class Ad(models.Model):
         return self.title
 
 class Comment(models.Model):
-    text = models.CharField(max_length=150, null=True)
+    text = models.CharField(max_length=1000, null=True)
     author = models.ForeignKey(User, verbose_name="Автор", on_delete=models.CASCADE, null=True)
     ad = models.ForeignKey(Ad, verbose_name="Объявление", on_delete=models.CASCADE, null=True)
     created_at = models.DateTimeField(auto_now_add=True, null=True)
