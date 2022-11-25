@@ -7,9 +7,12 @@ from djoser.views import UserViewSet
 from drf_spectacular.views import SpectacularSwaggerView, SpectacularAPIView
 from rest_framework import routers
 
+from ads.views import AdViewSet, CommentViewSet
 
 router = routers.SimpleRouter()
 router.register('user', UserViewSet)
+router.register('ad', AdViewSet)
+router.register('comment', CommentViewSet)
 
 
 urlpatterns = [
