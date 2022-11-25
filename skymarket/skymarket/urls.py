@@ -6,7 +6,7 @@ from django.conf.urls.static import static
 from djoser.views import UserViewSet
 from drf_spectacular.views import SpectacularSwaggerView, SpectacularAPIView
 from rest_framework import routers
-
+from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 from ads.views import AdViewSet, CommentViewSet
 
 router = routers.SimpleRouter()
@@ -22,7 +22,10 @@ urlpatterns = [
     path('api/schema/swagger-ui/',
          SpectacularSwaggerView.as_view(url_name='schema'),
          name='swagger-ui'),
-    path('user/', include('users.urls'))
+    # path('api-auth', include('rest_framework.urls')),
+    path('user/', include('users.urls')),
+    path('token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
+    path('token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
 ]
 urlpatterns += router.urls
 
