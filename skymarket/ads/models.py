@@ -10,7 +10,7 @@ class Ad(models.Model):
     title = models.CharField(max_length=200, null=True)
     price = models.PositiveIntegerField(null=True)
     image = models.ImageField(null=True)
-    description = models.CharField(max_length=100, null=True, blank=True)
+    description = models.TextField(null=True, blank=True)
     author = models.ForeignKey(User, verbose_name="Автор", on_delete=models.CASCADE, null=True)
     created_at = models.DateTimeField(auto_now_add=True, null=True)
 

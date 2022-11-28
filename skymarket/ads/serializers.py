@@ -14,7 +14,7 @@ class CommentSerializer(serializers.ModelSerializer):
 
 
 class AdCreateSerializer(serializers.ModelSerializer):
-    author = CurrentUserSerializer()
+    author = CurrentUserSerializer(read_only=True)
 
     class Meta:
         model = Ad
