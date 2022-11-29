@@ -10,9 +10,9 @@ from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 from ads.views import AdViewSet, CommentViewSet
 
 router = routers.SimpleRouter()
-router.register('user', UserViewSet)
-router.register('ad', AdViewSet)
-router.register('comment', CommentViewSet)
+router.register('users', UserViewSet)
+router.register('ads', AdViewSet)
+router.register('comments', CommentViewSet)
 
 
 urlpatterns = [
@@ -22,10 +22,10 @@ urlpatterns = [
     path('api/schema/swagger-ui/',
          SpectacularSwaggerView.as_view(url_name='schema'),
          name='swagger-ui'),
-    # path('api-auth', include('rest_framework.urls')),
     path('api/', include('users.urls')),
-    path('token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
-    path('token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
+    path('api/', include('ads.urls')),
+
+
 ]
 urlpatterns += router.urls
 
