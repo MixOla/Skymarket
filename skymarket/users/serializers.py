@@ -17,3 +17,8 @@ class CurrentUserSerializer(serializers.ModelSerializer):
         model = User
         fields = ['pk', 'phone', 'first_name', 'last_name']
 
+class CurrentUpdateSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = User
+        fields = '__all__'

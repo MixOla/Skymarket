@@ -9,7 +9,7 @@ from users.models import User
 class Ad(models.Model):
     title = models.CharField(max_length=200, null=True)
     price = models.PositiveIntegerField(null=True)
-    image = models.ImageField(null=True)
+    image = models.ImageField(upload_to="ad_images", null=True, blank=True)
     description = models.TextField(null=True, blank=True)
     author = models.ForeignKey(User, verbose_name="Автор", on_delete=models.CASCADE, null=True)
     created_at = models.DateTimeField(auto_now_add=True, null=True)

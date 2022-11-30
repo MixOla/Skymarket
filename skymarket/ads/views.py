@@ -1,17 +1,19 @@
+from django.shortcuts import get_object_or_404
 from rest_framework import pagination, viewsets
 from rest_framework.decorators import action
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import IsAuthenticated, IsAdminUser
 
 from ads.models import Ad, Comment
-from ads.serializers import AdSerializer, CommentSerializer, AdCreateSerializer, AdDetailSerializer
+from ads.permissions import IsOwner
+from ads.serializers import AdSerializer, CommentSerializer, AdDetailSerializer
 
 
 class AdPagination(pagination.PageNumberPagination):
-    page_size = 3
+    page_size = 4
 
 
 class AdViewSet(viewsets.ModelViewSet):
-    queryset = Ad.objects.order_by('-created_at')
+    queryset = Ad.objects.all()
     pagination_class = AdPagination
     permission_classes = [IsAuthenticated]
 
@@ -21,17 +23,28 @@ class AdViewSet(viewsets.ModelViewSet):
         else:
             return AdSerializer
 
+    def get_permissions(self):
+        if self.action in ['update', 'destroy']:
+            self.permission_classes = [IsAuthenticated, IsAdminUser|IsOwner]
+        return super().get_permissions()
+
     @action(detail=False)
     def me(self, request, *args, **kwargs):
         self.queryset = Ad.objects.filter(author=request.user)
-        return super().list(self, self, request, *args, **kwargs)
+        return super().list(self, request, *args, **kwargs)
 
 
 class CommentViewSet(viewsets.ModelViewSet):
-    queryset = Comment.objects.order_by('-created_at')
-    default_serializer = CommentSerializer
+    queryset = Comment.objects.all()
     serializer_class = CommentSerializer
-    serializer_classes = {
-        "retrieve": CommentSerializer,
-        "create": CommentSerializer
-    }
+
+    def get_queryset(self):
+        ad_id = self.kwargs.get("ad_pk")
+        return Comment.objects.filter(ad_id=ad_id)
+
+    def perform_create(self, serializer):
+        ad_id = self.kwargs.get("ad_pk")
+        ad_instance = get_object_or_404(Ad, pk=ad_id)
+        user = self.request.user
+        serializer.save(author=user, ad=ad_instance)
+
