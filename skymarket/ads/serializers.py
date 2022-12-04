@@ -13,12 +13,11 @@ class CommentSerializer(serializers.ModelSerializer):
         exclude = ['author', 'ad']
 
 
-
 class AdSerializer(serializers.ModelSerializer):
-
     class Meta:
         model = Ad
         fields = ['pk', 'title', 'price', 'image', 'description']
+
 
 class AdDetailSerializer(serializers.ModelSerializer):
     author_first_name = serializers.SerializerMethodField()
